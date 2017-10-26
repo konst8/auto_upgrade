@@ -1,0 +1,38 @@
+* {    
+  -webkit-appearance: none;
+  bos-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 40px;
+  font-size: 14px;
+}
+
+input {
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  background: #f6f6f6;
+}
+
+button {
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.container {
+  padding: 40px;
+  border-top: 1px solid #f6f6f6;
+}
+
+a {
+  color: #3b73af;
+}
