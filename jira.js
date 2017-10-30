@@ -8,14 +8,14 @@ var cheerio = require("cheerio");
 
 var creds = require('./credentials.js');
 
-const user = creds.jiraUserName;
-const pass = creds.jiraPassword;
+const user = creds.credentials.jiraUserName;
+const pass = creds.credentials.jiraPassword;
 
 exports.requestTicket = function(urlToTicket, responseToBrowser) {
   // Jira log in and parse. 
-  var creds = new Buffer(user + ':' + pass).toString('base64');
+  var credsCode = new Buffer(user + ':' + pass).toString('base64');
   var headers = {
-      'Authorization': 'Basic ' + creds,
+      'Authorization': 'Basic ' + credsCode,
       'Content-Type': 'application/json'
   };
 
