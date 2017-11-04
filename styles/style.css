@@ -22,6 +22,18 @@ input {
   background: #f6f6f6;
 }
 
+input:hover,
+input:focus,
+input:active {
+  background: #e2e2e2;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  vertical-align: text-bottom;
+  margin-right: 1em;
+}
+
 button {
   border: none;
   padding: 10px;

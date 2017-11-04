@@ -14,31 +14,33 @@ const pass = creds.credentials.jiraPassword;
 const basePath = creds.credentials.stashBasePath;
 
 var credsCode = new Buffer(user + ':' + pass).toString('base64')
-console.log(credsCode);
 
 var headers = {
-    'Authorization': 'Basic ' + credsCode,
-    'Content-Type': 'application/json'
+  'Authorization': 'Basic ' + credsCode,
+  'Content-Type': 'application/json'
 };
 
 var options = {
-    url: basePath + '/rest/api/1.0/users/' + user + '/repos?limit=10',
-    headers: headers
+  url: basePath + '/rest/api/1.0/users/' + user + '/repos?limit=1',
+  headers: headers
 };
 
 function callback(error, response, body) {
-  console.log('hey');
-    if (!error && response.statusCode == 200) {
-      var server = http.createServer(function(request, response) {
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.write(body);
-        response.end();
+  if (!error && response.statusCode == 200) {
+    var server = http.createServer(function(request, response) {
+      var jsonOutput = JSON.parse(body);
+      var links = [];
+      links.push(basePath + jsonOutput.values[0].link.url);
+      links.push(jsonOutput.values[0].cloneUrl);
+      response.writeHead(200, {"Content-Type": "text/html"});      
+      links.forEach(function(link){
+        response.write('<div>' + '<a href="' + link + '">' + link + '</a></div>');
       });
-      server.listen(8000, "127.0.0.1");
-      console.log("Server is listening");
-    }
+      response.end();
+    });
+    server.listen(8000, "127.0.0.1");
+    console.log("Server is listening");
+  }
 }
 
 request(options, callback);
-
-

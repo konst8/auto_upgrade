@@ -33,10 +33,49 @@ exports.requestTicket = function(urlToTicket, responseToBrowser) {
       responseToBrowser.write('<h2>' + $title.html() + '</h2>');
       responseToBrowser.write($description.html());
       if ($tasks.length) {
-        responseToBrowser.write($tasks.html());
+        var $provedTasks = $('.issue-link', $tasks).filter(proveTasks);
+        $provedTasks.each(function(){
+          responseToBrowser.write('<h3>' + '<input type="checkbox"></input>' + $.html($(this)) + '</h3>');
+        })
       }
       responseToBrowser.end();
     }
   }
   request(options, jiraCallback);
+}
+
+// Filter subtasks and output only those, which we want to handle.
+
+function proveTasks(ind, link) {
+  var linkText = link.children[0].data;
+  var taskProved = false;
+  // Map tasks by keywords in the title.
+  var tasksMap = [
+    {
+      title: 'Update composer.json',
+      matches: [
+        'Update composer.json'
+      ]
+    },
+    {
+      title: 'Prepare jenkins configs',
+      matches: [
+        'Prepare jenkins configs'
+      ]
+    },
+    {
+      title: 'Cefo',
+      matches: [
+        'Capture'
+      ]
+    }
+  ];
+  tasksMap.forEach(function(item){
+    item.matches.forEach(function(match){
+      if (linkText.includes(match)) {
+        return (taskProved = true);        
+      }
+    });
+  });
+  return taskProved;
 }
