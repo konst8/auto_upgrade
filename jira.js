@@ -6,10 +6,10 @@ var cheerio = require("cheerio");
 
 // Import Jira credentials.
 
-var creds = require('./credentials.js');
+var settings = require('./settings.js');
 
-const user = creds.credentials.jiraUserName;
-const pass = creds.credentials.jiraPassword;
+const user = settings.credentials.jiraUserName;
+const pass = settings.credentials.jiraPassword;
 
 exports.requestTicket = function(urlToTicket, responseToBrowser) {
   // Jira log in and parse. 
